@@ -21,10 +21,12 @@ jobs:
 
     - name: Docker backend image build etme isi
       run: |
+        cd ./react-express-mongodb/
         docker build -t saitbutun/backend:latest ./backend
         docker push saitbutun/backend:latest
     - name: Docker frontend image build etme isi
       run: |
+        cd ./react-express-mongodb/
         docker build -t saitbutun/frontend:latest ./frontend
         docker push saitbutun/frontend:latest
         
