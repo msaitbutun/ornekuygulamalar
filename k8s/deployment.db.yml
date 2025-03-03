@@ -10,7 +10,7 @@ spec:
     - ReadWriteOnce  # Bu volumu yalnızca bir Pod kullanabilir
   persistentVolumeReclaimPolicy: Retain  # Volume geri alındığında veriler korunur
   hostPath:
-    path: /data/mongo  # Bu yolu cluster'daki bir makinada belirtiyoruz
+    path: /data/mongo  # Bu yolu cluster'daki bir makinada belirttik
 
 ---
 # Persistent Volume Claim Tanımı
@@ -23,8 +23,7 @@ spec:
     - ReadWriteOnce  # PVC'nin kullanım modu
   resources:
     requests:
-      storage: 1Gi  # Aynı büyüklükte bir depolama talep ediyoruz
-
+      storage: 1Gi  
 ---
 # MongoDB Deployment Tanımı
 apiVersion: apps/v1
@@ -43,7 +42,7 @@ spec:
     spec:
       containers:
         - name: mongo
-          image: mongo:4.4.0  # MongoDB sürümünü buraya belirleyebilirsiniz
+          image: mongo:4.4.0  
           ports:
             - containerPort: 27017  # MongoDB'nin çalışacağı port
           volumeMounts:
@@ -51,11 +50,11 @@ spec:
               mountPath: /data/db  # MongoDB verilerinin depolanacağı yer
           resources:
             requests:
-              memory: "64Mi"  # Minimum bellek talebi
-              cpu: "250m"     # Minimum CPU talebi
+              memory: "64Mi"  
+              cpu: "250m"     
             limits:
-              memory: "128Mi"  # Maksimum bellek sınırı
-              cpu: "500m"      # Maksimum CPU sınırı
+              memory: "128Mi"  
+              cpu: "500m"      
       volumes:
         - name: mongo-storage
           persistentVolumeClaim:

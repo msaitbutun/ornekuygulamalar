@@ -1,6 +1,6 @@
 services:
   frontend: #our service name
-    image: saitbutun/frontend:latest
+    image: saitbutun/frontend:latest 
     ports:
       - 3000:3000
     stdin_open: true #keeps the standart input open
