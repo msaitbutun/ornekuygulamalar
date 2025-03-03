@@ -6,7 +6,7 @@ Bu repo, Docker, Kubernetes, AWS EKS ve CI/CD süreçlerini kullanarak geliştir
 
 ## 🎯 Amaç
 
-Bu projenin amacı, bir 3-tier uygulama Docker ve Kubernetes kullanarak  nasıl containerize edileceğini ve bulut ortamında (AWS EKS) nasıl dağıtılacağını göstermektir. Ayrıca CI/CD süreçlerini GitHub Actions ile otomatikleştirerek uygulamanın her yeni versiyonunun hızlıca üretime alınmasını sağladım. Proje, özellikle Docker ve Kubernetes konusunda bilgi sahibi olmak isteyenler için bir rehber niteliğindedir.
+Bu projenin amacı, bir 3-tier uygulama Docker ve Kubernetes kullanarak  nasıl containerize edileceğini ve bulut ortamında (AWS EKS) nasıl dağıtılacağını göstermektir. Ayrıca CI/CD süreçlerini GitHub Actions ile otomatikleştirerek uygulamanın her yeni versiyonunun hızlıca üretime alınmasını sağladım.
 
 ---
 
