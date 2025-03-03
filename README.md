@@ -21,4 +21,6 @@ Proje şu teknolojileri kullanmaktadır:
 - **CI/CD**: GitHub Actions (Otomatik build ve deploy)
 - **Veri Saklama**: Persistent Volume ve Persistent Volume Claim ile MongoDB verilerinin güvenli bir şekilde saklanması sağlanmıştır.
 
+- https://github.com/hashicorp-education/learn-terraform-provision-eks-cluster reposu hashicorp-tf-eks-provision klasörüne çekilmiştir.
+
 
