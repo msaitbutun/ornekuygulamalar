@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-backend
+spec:
+  selector:
+    matchLabels:
+      app: backend  
+  template:
+    metadata:
+      labels:
+        app: backend  
+    spec:
+      containers:
+      - name: backend
+        image: saitbutun/backend:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000  # Backend container'ı bu portu dinliyor
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://root:rootpassword@deployment-db:27017/mydatabase"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend  
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000  
+  type: LoadBalancer #!! lokalinizde çalıştırmak için burayı NodePort olarak ayarlayabilirsiniz.  

@@ -20,6 +20,16 @@ const routes = (app) => {
         serverResponses.sendError(res, messages.BAD_REQUEST, e);
       });
   });
+  router.get("/todos", (req, res) => {
+    Todo.find({}, { __v: 0 })
+      .then((todos) => {
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, todos);
+      })
+      .catch((e) => {
+        serverResponses.sendError(res, messages.BAD_REQUEST, e);
+      });
+  });
+  
 
   router.get("/", (req, res) => {
     Todo.find({}, { __v: 0 })

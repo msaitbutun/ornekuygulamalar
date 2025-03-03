@@ -1,23 +1,21 @@
 services:
-  frontend:
-    build:
-      context: frontend
+  frontend: #our service name
+    image: saitbutun/frontend:latest
     ports:
       - 3000:3000
-    stdin_open: true
+    stdin_open: true #keeps the standart input open
     volumes:
-      - ./frontend:/usr/src/app
+      - ./frontend:/usr/src/app 
       - /usr/src/app/node_modules
-    restart: always
+    restart: always #if containers stop or crahsed Docker will automaticly restart it
     networks:
-      - react-express
+      - react-express #this network connect frontend and backend container
     depends_on:
-      - backend
+      - backend #do not start before backend container
 
   backend:
     restart: always
-    build:
-      context: backend
+    image: saitbutun/backend:latest
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
@@ -30,9 +28,9 @@ services:
       - 3000
   mongo:
     restart: always
-    image: mongo:4.2.0
+    image: mongo:4.2.0 #it will pull up from dockerhub
     volumes:
-      - ./data:/data/db
+      - ./data:/data/db # to keep data with no lose 
     networks:
       - express-mongo
     expose:

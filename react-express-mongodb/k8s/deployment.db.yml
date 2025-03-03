@@ -1,0 +1,75 @@
+# Persistent Volume Tanımı
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv
+spec:
+  capacity:
+    storage: 1Gi  
+  accessModes:
+    - ReadWriteOnce  # Bu volumu yalnızca bir Pod kullanabilir
+  persistentVolumeReclaimPolicy: Retain  # Volume geri alındığında veriler korunur
+  hostPath:
+    path: /data/mongo  # Bu yolu cluster'daki bir makinada belirtiyoruz
+
+---
+# Persistent Volume Claim Tanımı
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce  # PVC'nin kullanım modu
+  resources:
+    requests:
+      storage: 1Gi  # Aynı büyüklükte bir depolama talep ediyoruz
+
+---
+# MongoDB Deployment Tanımı
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:4.4.0  # MongoDB sürümünü buraya belirleyebilirsiniz
+          ports:
+            - containerPort: 27017  # MongoDB'nin çalışacağı port
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db  # MongoDB verilerinin depolanacağı yer
+          resources:
+            requests:
+              memory: "64Mi"  # Minimum bellek talebi
+              cpu: "250m"     # Minimum CPU talebi
+            limits:
+              memory: "128Mi"  # Maksimum bellek sınırı
+              cpu: "500m"      # Maksimum CPU sınırı
+      volumes:
+        - name: mongo-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc  # PVCyi burada kullanıyoruz
+
+---
+# MongoDB Service Tanımı
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  selector:
+    app: mongo  # MongoDB Deployment'ı ile eşleşecek
+  ports:
+    - port: 27017  # MongoDB servisi 27017 portunu dinliyor
+      targetPort: 27017  # Container'ın dinlediği port
