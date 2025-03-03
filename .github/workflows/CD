@@ -1,0 +1,27 @@
+name: Continuous Deployment to EKS
+
+on:
+   workflow_dispatch: #yalnızca manuel tetiklenebilir
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      
+    - name: Checkout Repository  #github repomuzu çektik 
+      uses: actions/checkout@v2
+
+    - name: Set up AWS CLI  # AWS cli kurulumunu yapıyoruz
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: ${{ env.AWS_REGION }}
+    
+    - name: Configure kubectl to use EKS #eks clusterımıza erisebilmemiz icin
+      run: |
+        aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name ${{ env.CLUSTER_NAME }}me
+
+    - name: Deploy to EKS # deployment zamanı
+      run: |
+        kubectl apply -f ./k8s
